@@ -1,0 +1,49 @@
+What is Cloud Computation
+
+What is Compute
+
+what is difference between Iaas , Paas and Saas
+
+what are different type of compute services ? Why would you chose one from another
+
+1. VM
+2. App Services
+3. AKS
+4. Azure Functions 
+
+What is a virtual machine? Is it a managed or unmanaged service?
+
+What is VM archhitecture ?
+
+-> There will be a host server os . On top of that there will be a hypervisor.Hypervisor manages virtual machines on a physical server. On top of that there will be a guest OS. And inside this OS we can put our code . These are the VM. On a single host we can install multple machines.
+
+How to save cost of the VM?
+
+A vm cost will include the VM cost, disk , and storage account cost also if public ip is attached then public ip cost.
+
+Reduce -
+
+1. Auto shutdown - Saves 50%	
+2. Reserved Instances
+3. Spot Instances - Machines that run on unused capacity in Azure , Can be evicted anytime. Good for batch process
+4. Select the disk , Standard HDD cost is low V/s SSD but it can effect SLA 
+5. Select right sizing of the machine. , also select correct region.
+
+What are availabilty sets vs zones ?
+
+- An availabilty set is a collection of fault domains and update domains on which your vm's will be spread across.
+- An availability zone are seperated group of datacemters within a region that have independent power , cooling and    infrastructure. 
+- 
+
+what is difference between fault domain and update domain?
+
+Fault Domain - Physical grouping of servers that share common power and networking source. A Vm in availability set will be placed in different fault domain
+
+Update Domain - Logical grouping of servers that will be updated at the same time.A Vm in availability set will be placed in different update domain
+
+
+
+How to create a VM?
+
+What is deployment task in azure?
+- A task containing all teh elements and configuration taht you wants to deploy. It'll be submitted a queue and will get completed once your time arrives.
