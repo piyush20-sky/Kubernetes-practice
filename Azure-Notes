@@ -51,3 +51,83 @@ How to create a VM?
 
 What is deployment task in azure?
 - A task containing all teh elements and configuration taht you wants to deploy. It'll be submitted a queue and will get completed once your time arrives.
+
+-------------------------
+ARM Template 
+-------------------------
+1.What is ARM Template?
+
+- A declarative JSON file describing the resource to be created and used by azure in all deployment. It can be exported modified, updated and can also created by scratch.
+
+2.What is declarative and imperative ?
+
+- Declarative describes the end result where as imperative contains the instructions to run. 
+    ex - ARM Template vs Azure CLI
+
+3.Write a basic ARM Template?
+
+-{ "name": "[Prameters('virtualMachineName2')]"
+   "type":"Microsoft.Compute/virtualMachines"
+   "apiVersion": "2022-03-01"
+   "location"" "[Parameters('location')]"
+   "dependsOn: :["[concat('Microsoft.NetworkInterfaces/',parameters('networkInterfaceName2'))]"]
+   "properties":{
+                "osDisk":{}
+                }
+  }
+
+4. Command to deploy resources via template?
+
+- Upload the file to cloud shell and move to that directory and run below command
+  az deployment group create --resource-group [ResourceGroup Name] --template-file temp.json --parameters param.json
+
+5.What is a virtual machine scale set?
+
+- A group of seperate VMs sharing the same image . It can be managed as a group. It can be scaled in or out automatically based on predefined confitions or manually . Once they are created they should not be modified as they are based on the base image and if we add applications to it the new vm will not consist it. It can be managed by a load balancer.
+
+6. How does a scale set scale.
+
+- It can be scaled based on metrics or scaled based on a specific count. We can also specify scale in policy based on which it'll delete the vm i.e. the oldest Vm or the newest VM. It'll need microsoft.insights provider.
+
+7. What is azure instance metadata services?
+
+- The Azure Instance Metadata Service (IMDS) provides information about currently running virtual machine instances. You can use it to manage and configure your virtual machines. This information includes the SKU, storage, network configurations, and upcoming maintenance events
+
+Command - Invoke-RestMethod -Headers @{"Metadata"="true"} -Method GET -NoProxy -Uri "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | ConvertTo-Json -Depth 64
+
+--------------
+App Services
+----------------
+
+What are App services?
+
+- A fully managed web hosting for websites. You can publish your code and it just runs. We won't have access to teh underlying servers. Security and comliance will be maintained by Microsoft. You can also integrate with source control or devops engines.
+
+What is difference between app service and app service plan?
+
+-App service is the piece of code which we want to run and app service plan is the undelying infrastructure which will run the piece of code.
+
+How to get access to the underlying infrastructure of an app service/ web app?
+
+- You can click i=on console and can perform basic operations such as ls , dir etc.
+
+What are deployment slots?
+
+- When uploading code to app service the new version is accessible immediately . But sometimes we want to test the version before publishing it. So it allows us to upload code and test it seperately from the main site.And after validation we can swap the slots and promote it to production.
+
+What are slots?
+
+- Slot is a fully functional app service with a dedicated url. It can be accessed directly through the url. They are free but depends on the app service plan , Basic and standard doesn't provide any slot feature. It allows traffic splitting so some users will be routed to one slot and some to the other slot.
+
+What are different types of deployment?
+
+1. Basic - All the instances update to the new version at once.
+Pros - Simple . Fast | Cons - Risky , Can create a major outage.
+
+2. Rolling - Instances are updated gradually in batches. And if no errors found then rest of the instances will be updated
+Pros - Allows rollback | Cons - Need to support two version at once
+
+Deploy to slot . Set traffic percentage so that small % will be routed to the new version. Gradually increase % of traffic to the new version untill 100%.
+
+3. Blue Green Deployment - New Version uploaded and accessible only to testers . After verification complete , traffice will be routed to new version.
+Pros - Simple , Don't have to support two version, New environment is always tested. Cons- Cost of extra instances.
